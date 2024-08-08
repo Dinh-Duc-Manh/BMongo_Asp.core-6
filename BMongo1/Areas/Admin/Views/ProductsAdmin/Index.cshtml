@@ -1,0 +1,125 @@
+﻿@model IEnumerable<BMongo1.Models.Product>
+@{
+    ViewData["Title"] = "Product list Page";
+}
+
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <h1 class="m-0">Product list</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="HomeAdmin" asp-action="Index">Home Admin</a></li>
+            <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="ProductsAdmin" asp-action="Index">Product management</a></li>
+            <li class="breadcrumb-item active">Product list</li>
+        </ol>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <form action="#">
+            <div class="input-group">
+                <input type="search" name="name" class="form-control form-control-lg" placeholder="Enter a name to search...">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-lg btn-default">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <a asp-action="Create" asp-controller="ProductsAdmin" class="btn btn-primary pt-2"><i class="fas fa-plus"></i> Create</a>
+</div>
+<h5 class="my-3">
+    <b class="text-success">@TempData["Message"]</b>
+    <b class="text-danger">@TempData["MessageError"]</b>
+</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault()._id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ProductImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ProductStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().CategoryId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item._id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <img src="~/Images/@item.ProductImage" width="100%" height="50" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item._id">Edit</a>
+
+                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item._id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="card-footer clearfix">
+    <ul class="pagination pagination-sm m-0 float-right">
+        @for (int i = 1; i <= ViewBag.totalpage; i++)
+        {
+            if (i == (int)ViewBag.page)
+            {
+                <li class="page-item"><span class="page-link">@i</span></li>
+
+            }
+            else if (ViewBag.name != null)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?page=@i&name=@ViewBag.name">
+                        @i
+                    </a>
+                </li>
+            }
+            else
+
+            {
+                <li class="page-item"><a class="page-link" href="?page=@i">@i</a></li>
+
+            }
+        }
+    </ul>
+</div>
